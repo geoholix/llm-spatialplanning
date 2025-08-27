@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - qdrant
+      - mlflow
+    networks:
+      - llm_net
+
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
+    networks:
+      - llm_net
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow:/mlflow
+    networks:
+      - llm_net
+
+networks:
+  llm_net:

@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+langchain
+langchain-community
+langchain-core
+qdrant-client
+ollama
+pydantic
+python-dotenv
+loguru
+pytest
+black
+flake8
+mypy
+mlflow
